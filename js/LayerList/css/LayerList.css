@@ -134,3 +134,30 @@
 .esriLayerList .esriClear {
   clear: both;
 }
+
+/*remove sublayer ident color*/
+
+.esriLayerList .esriList ul {
+/*    background-color: #f8f8f8;*/
+}
+
+/*css rules for the expand div*/
+
+.esriLayerExpand {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin: 12px 0;
+}
+.esriLayerExpand.expand {
+    background-image: url(../images/v_right.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+.esriLayerExpand.collapse {
+    background-image: url(../images/v.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}

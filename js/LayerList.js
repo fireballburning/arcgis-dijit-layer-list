@@ -59,18 +59,18 @@ define([
         this.set(properties);
         // classes
         this.css = {
-          container: "esriContainer",
+          container: "esriContainer", //div class where ul list is attached in dom not used in this js
           noLayers: "esriNoLayers",
           noLayersText: "esriNoLayersText",
           slider: "esriSlider",
           legend: "esriLegend",
-          list: "esriList",
+          list: "esriList", //ul class where layers are attached in dom not used in this js
           listExpand: "esriListExpand",
           listVisible: "esriListVisible",
           subList: "esriSubList",
           hasSubList: "esriHasSubList",
           subListLayer: "esriSubListLayer",
-          layer: "esriLayer",
+          layer: "esriLayer", //li class representing a layer
           layerScaleInvisible: "esriScaleInvisible",
           title: "esriTitle",
           titleContainer: "esriTitleContainer",
@@ -78,7 +78,8 @@ define([
           label: "esriLabel",
           button: "esriButton",
           content: "esriContent",
-          clear: "esriClear"
+          clear: "esriClear",
+            layerExpand: "esriLayerExpand"
         };
       },
 
@@ -97,6 +98,23 @@ define([
           // toggle layer visibility
           _self._toggleLayer(data, subData);
         }));
+          this.own(on(this._layersNode,"." + this.css.layerExpand+":click", function(evt){
+              var id, data, subData;
+              // get id of sibling checkbox that stores the layer index
+              id = evt.target.nextSibling;
+          // layer index
+            data = domAttr.get(id, "data-layer-index");
+          // subLayer index
+          subData = domAttr.get(id, "data-sublayer-index");
+          // expand/collapse if necessary
+          _self._toggleSubLayerExpand(data, subData);
+
+              if(domClass.contains(evt.target, 'collapse')){
+            domClass.replace(evt.target, 'expand', 'collapse');
+          }else{
+            domClass.replace(evt.target, 'collapse', 'expand');
+          }
+          }));
       },
 
       // start widget. called by user
@@ -407,6 +425,7 @@ define([
                 }
                 // lets save all the nodes for events
                 var nodesObj = {
+                    expand: layerExpandNode,
                   checkbox: checkboxNode,
                   title: titleNode,
                   titleContainer: titleContainerNode,
@@ -430,6 +449,13 @@ define([
                   if (this._showSublayers(layerInfo) && layerType !== "esri.layers.ArcGISTiledMapServiceLayer" && subLayers && subLayers.length) {
                     domClass.add(layerNode, this.css.hasSubList);
                     domClass.toggle(layerNode, this.css.listExpand, status);
+                                      // add expand "enhancement"
+                var layerExpandNode = domConstruct.create("div", {
+                    className: this.css.layerExpand + " collapse",
+                    "expanded": status.toString()
+                }, titleContainerNode, "first");
+//                domClass.add(layerExpand, 'esriLayerExpand collapse');
+//                domConstruct.place(layerExpand, layerNode, 'first');
                     // create subLayer list
                     var subListNode = domConstruct.create("ul", {
                       className: this.css.subList
@@ -701,6 +727,33 @@ define([
         }
         return noGroups;
       },
+
+        _toggleSubLayerExpand: function(layerIndex, subLayerIndex) {
+            var layerNode, checkboxNode;
+        layerIndex = parseInt(layerIndex, 10);
+        var layerNodes = this._nodes[layerIndex];
+        if (subLayerIndex !== null) {
+          subLayerIndex = parseInt(subLayerIndex, 10);
+          layerNode = layerNodes.subNodes[subLayerIndex].subLayer;
+//          expandNode = layerNodes.subNodes[subLayerIndex].subExpand;
+        } else {
+          layerNode = layerNodes.layer;
+          expandNode = layerNodes.expand;
+        }
+
+//        var status = domAttr.get(checkboxNode, "checked");
+//            var status = domAttr.get(checkboxNode,"expanded");
+//            console.log(status);
+//            var status = domClass.contains(checkboxNode,this.css.listExpand);
+//            domAttr.toggle(layerNode,this.css.listExpand);
+//        var status = domClass.replace(checkboxNode,"collapse","expand")
+
+        if (domClass.contains(layerNode, this.css.hasSubList)) {
+          domClass.toggle(layerNode, this.css.listExpand);
+        }
+            domClass.toggle(layerNode, this.css.listVisible);
+            domClass.replace(expandNode,"collapse","expand");
+        },
 
       _toggleState: function (layerIndex, subLayerIndex) {
         var layerNode, checkboxNode;
