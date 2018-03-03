@@ -87,7 +87,7 @@ define([
                 this.inherited(arguments);
                 var _self = this;
                 // when checkbox is clicked
-                this.own(on(this._layersNode, "." + this.css.checkbox + ":click", function () {
+                this.own(on(this._layersNode, "." + this.css.checkbox + ":click", function (evt) {
                     var data, subData;
                     // layer index
                     data = domAttr.get(this, "data-layer-index");
@@ -97,6 +97,15 @@ define([
                     _self._toggleState(data, subData);
                     // toggle layer visibility
                     _self._toggleLayer(data, subData);
+
+                    var expander = this.previousSibling;
+                    if (expander) {
+                        if (domClass.contains(evt.path[3], "esriListExpand")) {
+                            domClass.replace(expander, 'collapse', 'expand');
+                        } else {
+                            domClass.replace(expander, 'expand', 'collapse');
+                        }
+                    }
                 }));
                 this.own(on(this._layersNode, "." + this.css.layerExpand + ":click", function (evt) {
                     var id, data, subData;
