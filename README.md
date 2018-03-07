@@ -1,5 +1,8 @@
 # LayerList Widget
 
+## ***Updates (Modifications)!***
+I found this post -- [LayerList widget enhanced to be collapsable](https://community.esri.com/thread/167536) -- on Esri GeoNet by [rscheitlin's Profile | GeoNet](https://community.esri.com/people/rscheitlin) and decided to modify the actual LayerList widget to include it. I needed to either write my own LayerList widget or modify one of Esri's. I found this repo to be the best place to start as the "official" LayerList widget code not minimize was eluding me :).
+
 ## Features
 The LayerList widget provides list of layers that allows the toggling of layer visibility. The style can be completely changed and skinned to match your own map design.
 
