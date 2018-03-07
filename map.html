@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <title>LayerList Dijit</title>
-  <link rel="stylesheet" type="text/css" href="http://jsdev.arcgis.com/3.14/esri/css/esri.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/3.23/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" type="text/css" href="http://jsdev.arcgis.com/3.23/esri/css/esri.css">
   <link rel="stylesheet" type="text/css" href="js/LayerList/css/LayerList.css">
   <style type="text/css">
     body {
@@ -67,7 +68,7 @@
       }]
     };
   </script>
-  <script src="http://jsdev.arcgis.com/3.14/" type="text/javascript"></script>
+  <script src="http://jsdev.arcgis.com/3.23/" type="text/javascript"></script>
   <script type="text/javascript">
     var map, myWidget;
     require([
@@ -144,21 +145,21 @@
       map.addLayer(fl);
 
 
-      // GeoRSS Yellowstone and Sahara areas.
-      var georssUrl = "https://dl.dropboxusercontent.com/u/2654618/data-mixed.xml";
-      var georss = new GeoRSSLayer(georssUrl);
-      georss.on("load", function () {
-        domStyle.set("loading", "display", "none");
-        // create an info template
-
-        // set the info template for the feature layers that make up the GeoRSS layer
-        // the GeoRSS layer contains one feature layer for each geometry type
-        var layers = georss.getFeatureLayers();
-        arrayUtils.forEach(layers, function (l) {
-
-        });
-      });
-      map.addLayer(georss);
+      // GeoRSS Yellowstone and Sahara areas. This url is no longer valid
+//      var georssUrl = "https://dl.dropboxusercontent.com/u/2654618/data-mixed.xml";
+//      var georss = new GeoRSSLayer(georssUrl);
+//      georss.on("load", function () {
+//        domStyle.set("loading", "display", "none");
+//        // create an info template
+//
+//        // set the info template for the feature layers that make up the GeoRSS layer
+//        // the GeoRSS layer contains one feature layer for each geometry type
+//        var layers = georss.getFeatureLayers();
+//        arrayUtils.forEach(layers, function (l) {
+//
+//        });
+//      });
+//      map.addLayer(georss);
 
 
       //Image Service / Toronto
