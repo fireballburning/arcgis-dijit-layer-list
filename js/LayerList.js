@@ -636,7 +636,9 @@ define([
                         // on map LOD change
                         var zoomChange = on(this.map, "zoom-end", lang.hitch(this, function () {
                             // gray out invisible sublayers
-                            this._subLayerScale(response);
+                            if (response.layerInfo.subLayers){
+                            this._subLayerScale(response);    
+                            }
                         }));
                         this._layerEvents.push(zoomChange);
                         // gray out invisible sublayers
