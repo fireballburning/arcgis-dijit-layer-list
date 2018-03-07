@@ -121,7 +121,7 @@
         "opacity": 0.5,
         "id": "Census - dynamicMapServiceLayer"
       });
-      map.addLayer(dynamicMapServiceLayer);
+//      map.addLayer(dynamicMapServiceLayer);
 
 
       //    //Complex multi-level dyanmic service Only visible when zoomed in very tight.. Naperville Illinois (West Chicago)
@@ -129,12 +129,12 @@
         "opacity": 0.5,
         "id": "Naperville - complexMultilevelDynamicMapServiceLayer"
       });
-      map.addLayer(complexMultilevelDynamicMapServiceLayer);
+//      map.addLayer(complexMultilevelDynamicMapServiceLayer);
 
 
       //  //Tiled Service
       var tiled = new ArcGISTiledMapServiceLayer("http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer");
-      map.addLayer(tiled);
+//      map.addLayer(tiled);
 
 
       // //Feature Service North of LA
@@ -142,7 +142,7 @@
         id: "world-regions",
         opacity: 0.5
       });
-      map.addLayer(fl);
+//      map.addLayer(fl);
 
 
       // GeoRSS Yellowstone and Sahara areas. This url is no longer valid
@@ -166,7 +166,8 @@
       var imageServiceLayer = new ArcGISImageServiceLayer("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Toronto/ImageServer", {
         opacity: 0.75
       });
-      map.addLayer(imageServiceLayer);
+//      map.addLayer(imageServiceLayer);
+        map.addLayers(dynamicMapServiceLayer,complexMultilevelDynamicMapServiceLayer,tiled,fl)
 
 
 
@@ -191,7 +192,15 @@
 
       myWidget = new LayerList({
         map: map,
-        layers: map._layers
+//        layers: map._layers
+        layers: [{
+           layer: complexMultilevelDynamicMapServiceLayer,
+            id: "Atlas layers",
+            subLayers: false,
+            showLegend: true
+         }],
+          showOpacitySlider:true,
+          showLegend: false //overriden by layers prop showLegend on Line 200
       }, "LayerList");
       myWidget.startup();
       // END RUN DIRECT MAP SERVICE
