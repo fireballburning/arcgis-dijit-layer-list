@@ -161,3 +161,22 @@
     background-position: center;
     cursor: pointer;
 }
+
+/*css rules for the layer description icon*/
+.esriLayerList .esriDescription {
+  float: left;
+  height: 0.8em;
+  width: 0.8em;
+  padding: 0;
+  margin-top: 11px;
+  margin-right: 5px;
+}
+
+.esriLayerList .esriSubList .esriDescription {
+    margin-top: 4px;
+}
+
+.esriDescription img {
+    width:100%;
+}
+

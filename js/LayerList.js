@@ -79,7 +79,8 @@ define([
                     button: "esriButton",
                     content: "esriContent",
                     clear: "esriClear",
-                    layerExpand: "esriLayerExpand"
+                    layerExpand: "esriLayerExpand",
+                    description: "esriDescription"
                 };
             },
 
@@ -326,6 +327,49 @@ define([
                 }));
             },
 
+            _description: function (titleNode, layerURL) {
+                require(["esri/request", "dijit/popup", "dijit/TooltipDialog"], lang.hitch(this, function (esriRequest, popup, TooltipDialog) {
+                    var descDiv = domConstruct.create("div", {
+                        className: this.css.description
+                    }, titleNode);
+
+                    var requestHandle = esriRequest({
+                        "url": layerURL,
+                        "content": {
+                            "f": "json"
+                        },
+                        "callbackParamName": "callback"
+                    });
+                    requestHandle.then(requestSucceeded, requestFailed);
+
+                    function requestSucceeded(response, io) {
+                        if (response.description) {
+                            descDiv.innerHTML = "<img src='js/LayerList/images/blue_i.png' alt='Description'/>";
+                            var descTTDialog = new TooltipDialog({
+                                content: "<h3>Description</h3><p>" + response.description + "</p>",
+                                style: "max-width: 400px;",
+                                onCancel: function () {
+                                    popup.close(descTTDialog);
+                                }
+                            });
+                            on(descDiv, 'mouseover', function () {
+                                popup.open({
+                                    popup: descTTDialog,
+                                    around: descDiv
+                                });
+                            });
+                            on(descDiv.ownerDocument, 'click', function () {
+                                popup.close(descTTDialog);
+                            });
+                        }
+                    }
+
+                    function requestFailed(error, io) {
+                        console.log(error);
+                    }
+                }));
+            },
+
             _createLayerNodes: function () {
                 // clear node
                 this._layersNode.innerHTML = "";
@@ -390,6 +434,10 @@ define([
                                     className: this.css.checkbox
                                 }, titleContainerNode);
                                 domAttr.set(checkboxNode, "checked", status);
+                                // layer discription
+                                if (layerInfo.hasOwnProperty("showDescription") ? layerInfo.showDescription : this.showDescription) {
+                                    this._description(titleContainerNode, layer.url);
+                                }
                                 // optional button icon
                                 var buttonNode;
                                 if (layerInfo.button) {
@@ -533,6 +581,11 @@ define([
                                                 className: this.css.checkbox
                                             }, subTitleContainerNode);
                                             domAttr.set(subCheckboxNode, "checked", subChecked);
+                                            // subLayer description
+//                                             console.log(this.showDescription);
+                                            if (layerInfo.hasOwnProperty("showDescription") ? layerInfo.showDescription : this.showDescription) {
+                                                this._description(subTitleContainerNode, layer.url+"/"+subLayerIndex);
+                                            }
                                             // subLayer Title text
                                             var subTitle = subLayer.title || subLayer.name || "";
                                             var subLabelNode = domConstruct.create("label", {
@@ -636,8 +689,8 @@ define([
                         // on map LOD change
                         var zoomChange = on(this.map, "zoom-end", lang.hitch(this, function () {
                             // gray out invisible sublayers
-                            if (response.layerInfo.subLayers){
-                            this._subLayerScale(response);    
+                            if (response.layerInfo.subLayers) {
+                                this._subLayerScale(response);
                             }
                         }));
                         this._layerEvents.push(zoomChange);
