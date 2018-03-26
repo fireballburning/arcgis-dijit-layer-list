@@ -78,6 +78,7 @@
       "esri/arcgis/utils",
       "dojo/on",
       "dojo/dom",
+      "dijit/form/Button",
       "esri/map",
       "esri/layers/ArcGISDynamicMapServiceLayer",
       "esri/layers/FeatureLayer",
@@ -95,6 +96,7 @@
       arcgisUtils,
       on,
       dom,
+      Button,
       Map,
       ArcGISDynamicMapServiceLayer,
       FeatureLayer,
@@ -167,7 +169,7 @@
         opacity: 0.75
       });
 //      map.addLayer(imageServiceLayer);
-        map.addLayers(dynamicMapServiceLayer,complexMultilevelDynamicMapServiceLayer,tiled,fl)
+        map.addLayers([dynamicMapServiceLayer,complexMultilevelDynamicMapServiceLayer,imageServiceLayer,tiled,fl]);
 
 
 
@@ -193,14 +195,37 @@
       myWidget = new LayerList({
         map: map,
 //        layers: map._layers
+          showDescription: false,
         layers: [{
-           layer: complexMultilevelDynamicMapServiceLayer,
-            id: "Atlas layers",
-            subLayers: false,
-            showLegend: true
-         }],
-          showOpacitySlider:true,
-          showLegend: false //overriden by layers prop showLegend on Line 200
+                    layer: dynamicMapServiceLayer,
+                    id: "Atlas layers",
+//                    subLayers: true,
+                    content: "<p>Test</p>",
+                    showDescription: true,
+                    showOpacitySlider: true
+                }, {
+                    layer: tiled,
+                    id: "tiled",
+//                    showDescription: true,
+                    subLayers: true
+                }, {
+                    layer: complexMultilevelDynamicMapServiceLayer,
+                    id: "complex",
+                    subLayers: true,
+//                    showDescription: false,
+                    button: "<button type='button' id='testButton'>Add Service</button>"
+                }, {
+                    layer: imageServiceLayer,
+                    id: "torontoImage",
+                    content: "<p>Orthophoto image of Toronto, ON Canada",
+                    showOpacitySlider: true,
+                    showDescription: false
+                }, {
+                    layer: fl,
+                    id: "fl",
+//                    showDescription: true,
+                    subLayers: true
+                }]
       }, "LayerList");
       myWidget.startup();
       // END RUN DIRECT MAP SERVICE
@@ -210,12 +235,21 @@
           "opacity": 0.5,
           "id": "AddedLayer"
         });
-    map.addLayer(dynamicMapServiceLayer);
+        map.addLayer(dynamicMapServiceLayer);
       };
 
-
-
-
+        myWidget.on("load", function() {
+            var myButton = new Button({
+                label: "Add Service",
+                onClick: function() {
+                    var dynamicMapServiceLayer = new ArcGISDynamicMapServiceLayer("//sampleserver6.arcgisonline.com/arcgis/rest/services/Energy/Infrastructure/MapServer", {
+                        "opacity": 0.5,
+                        "id": "AddedLayerfromDojoBtn"
+                    });
+                    map.addLayer(dynamicMapServiceLayer);
+                }
+            }, "testButton").startup();
+        });
     });
   </script>
 </body>
