@@ -611,6 +611,11 @@ define([
                                             // add node to array
                                             subNodes[subLayerIndex] = subNode;
                                         }
+                                    } else {
+                                         layerExpandNode = domConstruct.create("div", {
+                                            className: "esriLayerNoExpand"
+                                        }, titleContainerNode, "first");
+                                        nodesObj.expand = layerExpandNode;
                                     }
                                 }
                             }
