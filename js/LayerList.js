@@ -426,6 +426,11 @@ define([
                                     className: this.css.titleContainer
                                 }, titleNode);
                                 var id = this.id + "_checkbox_" + layerIndex;
+                                // Expander placeholder
+                                var layerExpandNode = domConstruct.create("div",{
+                                    id: this.id + "_expander_" + layerIndex,
+                                    className: this.css.layerExpand
+                                },titleContainerNode);
                                 // Title checkbox
                                 var checkboxNode = domConstruct.create("input", {
                                     type: "checkbox",
@@ -482,6 +487,7 @@ define([
                                 }
                                 // lets save all the nodes for events
                                 var nodesObj = {
+                                    expand:layerExpandNode,
                                     checkbox: checkboxNode,
                                     title: titleNode,
                                     titleContainer: titleContainerNode,
@@ -495,7 +501,7 @@ define([
                                 this._nodes[layerIndex] = nodesObj;
                                 domClass.toggle(layerNode, this.css.listVisible, status);
                                 if (layer) {
-                                    // subLayers from thier info. Also WMS layers
+                                    // subLayers from their info. Also WMS layers
                                     subLayers = layer.layerInfos;
                                     // KML subLayers
                                     if (layerType === "esri.layers.KMLLayer") {
@@ -505,12 +511,9 @@ define([
                                     if (this._showSublayers(layerInfo) && layerType !== "esri.layers.ArcGISTiledMapServiceLayer" && subLayers && subLayers.length) {
                                         domClass.add(layerNode, this.css.hasSubList);
                                         domClass.toggle(layerNode, this.css.listExpand, status);
-                                        // add expand "enhancement"
-                                        var layerExpandNode = domConstruct.create("div", {
-                                            className: this.css.layerExpand + " collapse",
-                                            "expanded": status.toString()
-                                        }, titleContainerNode, "first");
-                                        nodesObj.expand = layerExpandNode;
+                                        // Enable expand and expander triangle css
+                                        domClass.add(layerExpandNode, this.css.layerExpand + " collapse");
+                                        domAttr.set(layerExpandNode,"expanded",status.toString());
                                         // create subLayer list
                                         var subListNode = domConstruct.create("ul", {
                                             className: this.css.subList
@@ -582,7 +585,6 @@ define([
                                             }, subTitleContainerNode);
                                             domAttr.set(subCheckboxNode, "checked", subChecked);
                                             // subLayer description
-//                                             console.log(this.showDescription);
                                             if (layerInfo.hasOwnProperty("showDescription") ? layerInfo.showDescription : this.showDescription) {
                                                 this._description(subTitleContainerNode, layer.url+"/"+subLayerIndex);
                                             }
@@ -612,10 +614,7 @@ define([
                                             subNodes[subLayerIndex] = subNode;
                                         }
                                     } else {
-                                         layerExpandNode = domConstruct.create("div", {
-                                            className: "esriLayerNoExpand"
-                                        }, titleContainerNode, "first");
-                                        nodesObj.expand = layerExpandNode;
+                                        domClass.replace(layerExpandNode, this.css.layerExpand+"No", this.css.layerExpand);
                                     }
                                 }
                             }

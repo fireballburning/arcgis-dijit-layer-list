@@ -1,3 +1,7 @@
+.esriLayerList .esriContainer{
+    border-top: none;
+    border-bottom: none;
+}
 .esriLayerList .esriList {
   background-color: #ededed;
   border-top: 1px solid #e0e0e0;
@@ -26,20 +30,23 @@
 }
 
 .esriLayerList .esriSubList {
-  margin: 0 0 0 12px;
+  margin: 0 0 0 24px;
   display: none;
 }
 
 .dj_rtl .esriLayerList .esriSubList {
-  margin: 0 20px 0 0;
+  margin: 0 24px 0 0;
 }
 
 .esriLayerList .esriListExpand > .esriSubList {
   display: block;
+ margin: 0 0 0 24px;
+/*    padding: 0 0 0 24px;*/
+        background-color: rgba(0,0,0,0);
 }
 
 .esriLayerList .esriLegend {
-  padding: 0 20px;
+  padding: 0;
   display: none;
 }
 
@@ -53,7 +60,7 @@
 }
 
 .esriLayerList .esriSlider {
-  padding: 5px 20px 15px 10px;
+  padding: 5px 20px 15px 20px;
   display: none;
 }
 
@@ -62,20 +69,20 @@
 }
 
 .esriLayerList .esriTitle {
+  border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
   font-size: 16px;
   line-height: 20px;
   background-color: #f8f8f8;
   color: #555;
 }
-
 .esriLayerList .esriSubList .esriTitle {
   border-left: 1px solid #e0e0e0;
 }
 
 .dj_rtl .esriLayerList .esriSubList .esriTitle {
-  border-left: 0;
-  border-right: 1px solid #e0e0e0;
+/*  border-left: 0;*/
+/*  border-right: 1px solid #e0e0e0;*/
 }
 
 .esriLayerList .esriLabel {
@@ -91,19 +98,47 @@
 
 .esriLayerList .esriScaleInvisible .esriLabel {
   color: #999;
+    padding: 10px 20px 10px 32px;
+}
+
+/*css rules for the expand div*/
+
+.esriLayerExpand, .esriLayerExpandNo {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin: 10px 4px;
+/*    border: 1px solid green;*/
+}
+.esriLayerExpand.expand {
+    background-image: url(../images/v_right.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+.esriLayerExpand.collapse {
+    background-image: url(../images/v.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }
 
 .esriLayerList .esriCheckbox {
   float: left;
-  height: 16px;
-  width: 16px;
-  padding: 0;
-  margin: 12px 5px 12px 5px;
+/*  height: 16px;*/
+/*  width: 16px;*/
+/*  padding: 0;*/
+  margin: 12px 4px;
 }
 
 .dj_rtl .esriLayerList .esriCheckbox {
   float: right;
-  margin: 12px 10px 12px 5px;
+  margin: 10px 4px;
+}
+
+.esriLayerList .esriSubList .esriCheckbox {
+ margin-top:12px;
+ margin-bottom:12px;
 }
 
 .esriLayerList .esriButton {
@@ -120,7 +155,7 @@
 }
 
 .esriLayerList .esriContent {
-  margin: 0 20px 5px 10px;
+  margin: 0 20px 5px 32px;
 }
 
 .dj_rtl .esriLayerList .esriContent {
@@ -135,45 +170,30 @@
   clear: both;
 }
 
+/* Normalize sublist layers to be spaced similar to parent*/
+.esriLayerList .esriSubList .esriTitleContainer {
+    padding:0;
+}
+.esriLayerList .esriSubList .esriLabel {
+    padding: 10px 20px 10px 32px;
+}
 /*remove sublayer ident color*/
 
 .esriLayerList .esriList ul {
-/*    background-color: #f8f8f8;*/
-}
-
-/*css rules for the expand div*/
-
-.esriLayerExpand, .esriLayerNoExpand {
-    width: 8px;
-    height: 16px;
-    float: left;
-    margin: 12px 0;
-}
-.esriLayerExpand.expand {
-    background-image: url(../images/v_right.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-}
-.esriLayerExpand.collapse {
-    background-image: url(../images/v.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
+    background-color: #f8f8f8;
 }
 
 /*css rules for the layer description icon*/
 .esriLayerList .esriDescription {
   float: left;
-  height: 0.8em;
-  width: 0.8em;
+  height: 12px;
+  width: 12px;
   padding: 0;
-  margin-top: 11px;
-  margin-right: 5px;
+  margin: 10px 4px 10px 4px;
 }
 
 .esriLayerList .esriSubList .esriDescription {
-    margin-top: 4px;
+/*    margin-top: 10px;*/
 }
 
 .esriDescription img {
