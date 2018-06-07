@@ -553,6 +553,9 @@ define([
                                                         className: this.css.subList
                                                     }, parentLayer);
                                                     domClass.add(parentLayer, this.css.hasSubList);
+                                                    // Enable expand and expander triangle css
+                                                    domClass.add(subExpandNode, this.css.layerExpand + " collapse");
+                                                    domAttr.set(subExpandNode,"expanded",status.toString());
                                                     domClass.toggle(parentLayer, [this.css.listVisible, this.css.listExpand], subChecked);
                                                     subSubLists[parentId] = subSubListNode;
                                                 }
@@ -575,6 +578,11 @@ define([
                                             var subTitleContainerNode = domConstruct.create("div", {
                                                 className: this.css.titleContainer
                                             }, subTitleNode);
+                                            // Expander placeholder for sublayrs
+                                            var subExpandNode = domConstruct.create("div",{
+                                                id: this.id + "_expander_" + layerIndex + "_" + subLayerIndex,
+                                                className: this.css.layerExpand
+                                            },subTitleContainerNode);
                                             // subLayer checkbox
                                             var subCheckboxNode = domConstruct.create("input", {
                                                 type: "checkbox",
@@ -601,6 +609,7 @@ define([
                                             }, subTitleContainerNode);
                                             // object of subLayer nodes
                                             var subNode = {
+                                                subExpand: subExpandNode,
                                                 subList: subListNode,
                                                 subSubList: subSubListNode,
                                                 subLayer: subLayerNode,
@@ -803,7 +812,7 @@ define([
                 if (subLayerIndex !== null) {
                     subLayerIndex = parseInt(subLayerIndex, 10);
                     layerNode = layerNodes.subNodes[subLayerIndex].subLayer;
-                    //          expandNode = layerNodes.subNodes[subLayerIndex].subExpand;
+                    expandNode = layerNodes.subNodes[subLayerIndex].subExpand;
                 } else {
                     layerNode = layerNodes.layer;
                     expandNode = layerNodes.expand;
